@@ -3,13 +3,21 @@ import styles from '../styles/Home.module.css'
 import {useState, ReactNode, useEffect} from 'react'
 
 export default function Home(): ReactNode {
-  const [movieA, setMovieA] = useState('');
+  const [movieA, setMovieA] = useState('')
+  const [queryResults, setQueryResults] = useState([])
 
-  const handleMovieAChange = ({target: {value}}) => setMovieA(value);
+  const handleMovieAChange = ({target: {value}}) => setMovieA(value)
 
   useEffect(() => {
-    if (!movieA) return;
-    console.log("movieA changed", movieA)
+    (async function() {
+      if (movieA.length <= 2) {
+        setQueryResults([])
+        return;
+      }
+      const results = await fetch(`/api/titleQuery?q=${encodeURIComponent(movieA)}`)
+        .then(res => res.json());
+      setQueryResults(results)
+    })()
   }, [movieA])
 
   return (
@@ -24,6 +32,13 @@ export default function Home(): ReactNode {
         <label><div>Which movie were you thinking of?</div>
           <input type="text" value={movieA} onChange={handleMovieAChange} />
         </label>
+        {queryResults.length > 0 &&
+          <div className="query-results">
+            {queryResults.map(({title, releaseDate, id}) =>
+              <li key={id}>{title} – {releaseDate}</li>
+            )}
+          </div>
+        }
       </main>
     </div>
   )

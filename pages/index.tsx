@@ -3,22 +3,38 @@ import styles from '../styles/Home.module.css'
 import {useState, ReactNode, useEffect} from 'react'
 
 export default function Home(): ReactNode {
-  const [movieA, setMovieA] = useState('')
+  const [movieQuery, setMovieQuery] = useState('')
   const [queryResults, setQueryResults] = useState([])
+  const [chosenMovie, setChosenMovie] = useState(null)
+  const [otherMovie, setOtherMovie] = useState(null)
 
-  const handleMovieAChange = ({target: {value}}) => setMovieA(value)
+  const handleMovieQueryChange = async ({target: {value: movieQuery}}) => {
+    setMovieQuery(movieQuery)
+    setOtherMovie(null)
+    if (movieQuery.length > 0) {
+      setChosenMovie(null)
+    }
+    if (movieQuery.length <= 2) {
+      setQueryResults([])
+      return;
+    }
+    const results = await fetch(`/api/titleQuery?q=${encodeURIComponent(movieQuery)}`)
+      .then(res => res.json());
+    setQueryResults(results)
+  }
+  const handleMovieClick = async (movie) => {
+    setChosenMovie(movie)
+    setMovieQuery('')
+    setQueryResults([])
+    const results = await fetch(`/api/otherMovies?year=${movie.releaseDate.slice(0,4)}`).then(res => res.json())
+    setOtherMovie(results)
+  }
 
   useEffect(() => {
     (async function() {
-      if (movieA.length <= 2) {
-        setQueryResults([])
-        return;
-      }
-      const results = await fetch(`/api/titleQuery?q=${encodeURIComponent(movieA)}`)
-        .then(res => res.json());
-      setQueryResults(results)
+
     })()
-  }, [movieA])
+  }, [movieQuery])
 
   return (
     <div className={styles.container}>
@@ -30,13 +46,22 @@ export default function Home(): ReactNode {
       <main className={styles.main}>
         <h1>It's been <b>that</b> long?!</h1>
         <label><div>Which movie were you thinking of?</div>
-          <input type="text" value={movieA} onChange={handleMovieAChange} />
+          <input placeholder="Search…" type="text" value={movieQuery} onChange={handleMovieQueryChange} />
         </label>
         {queryResults.length > 0 &&
           <div className="query-results">
-            {queryResults.map(({title, releaseDate, id}) =>
-              <li key={id}>{title} – {releaseDate}</li>
+            Choose one:
+            {queryResults.map((movie) =>
+              <li key={movie.id} onClick={() => handleMovieClick(movie)}>{movie.title} – {movie.releaseDate}</li>
             )}
+          </div>
+        }
+        {!otherMovie && chosenMovie && <div>Loading…</div>}
+        {otherMovie &&
+          <div className="other-movies">
+            <div><b>Now</b> (2021) to <b>{chosenMovie.title}</b> ({chosenMovie.releaseDate.slice(0,4)}) is the same as…</div>
+            <span><b>{chosenMovie.title}</b> ({chosenMovie.releaseDate.slice(0,4)}) to </span>
+            <b>{otherMovie.title}</b> ({otherMovie.release_date.slice(0,4)})
           </div>
         }
       </main>

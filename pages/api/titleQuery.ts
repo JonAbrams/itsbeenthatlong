@@ -13,5 +13,5 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
   const movies = (response?.results || []).map(
     ({id, title, release_date: releaseDate}) =>({title, releaseDate, id})
   )
-  res.status(200).json(movies.slice(0,5))
+  res.json(movies.slice(0,5))
 }

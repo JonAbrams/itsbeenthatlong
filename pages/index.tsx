@@ -52,7 +52,7 @@ export default function Home(): ReactNode {
           <div className="query-results">
             Choose one:
             {queryResults.map((movie) =>
-              <li key={movie.id} onClick={() => handleMovieClick(movie)}>{movie.title} – {movie.releaseDate}</li>
+              <li key={movie.id} onClick={() => handleMovieClick(movie)}><b>{movie.title}</b> ({movie.releaseDate.slice(0,4)})</li>
             )}
           </div>
         }
@@ -61,7 +61,7 @@ export default function Home(): ReactNode {
           <div className="other-movies">
             <div><b>Now</b> (2021) to <b>{chosenMovie.title}</b> ({chosenMovie.releaseDate.slice(0,4)}) is the same as…</div>
             <span><b>{chosenMovie.title}</b> ({chosenMovie.releaseDate.slice(0,4)}) to </span>
-            <b>{otherMovie.title}</b> ({otherMovie.release_date.slice(0,4)})
+            <b>{otherMovie.title}</b> ({otherMovie.releaseDate.slice(0,4)})
           </div>
         }
       </main>

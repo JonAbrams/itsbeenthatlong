@@ -12,5 +12,6 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
   const movieYear = year - (nowYear - year)
   const response = await fetch(`https://api.themoviedb.org/3/discover/movie?primary_release_year=${movieYear}&sort_by=revenue.desc&api_key=${process.env['TMDB_API_KEY']}`)
     .then(res => res.json())
-  res.json(response.results[0])
+  const [movie] = [response.results[0]].map(({title, release_date}) => ({ title, releaseDate: release_date }))
+  res.json(movie)
 }

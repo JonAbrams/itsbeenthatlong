@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import {useState, ReactNode} from 'react'
+import 'purecss'
 
 import styles from '../styles/Home.module.css'
 import {MovieQuery} from '../components/MovieQuery'

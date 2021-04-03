@@ -4,15 +4,11 @@ import 'isomorphic-fetch'
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   const query = req.query?.q as string
-  if (!(query?.length > 2)) {
-    res.status(404)
-    return;
-  }
   const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&api_key=${process.env['TMDB_API_KEY']}`)
   .then(res => res.json())
 
   let movies = response.results
-  movies.sort((a,b) => {
+  movies.sort((a, b) => {
     return b.vote_count - a.vote_count;
   })
   movies = movies.map(

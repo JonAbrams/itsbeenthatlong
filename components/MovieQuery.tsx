@@ -1,5 +1,7 @@
 import {useState, ReactNode} from 'react'
 
+import styles from '../styles/MovieQuery.module.css'
+
 type MovieQueryProps = {
   onClearChosenMovie: () => void,
   onMovieClick: (movie: Record<string, string>) => void,
@@ -13,7 +15,7 @@ export function MovieQuery({onClearChosenMovie, onMovieClick}: MovieQueryProps):
     setMovieQuery(movieQuery)
     onClearChosenMovie()
     setQueryResults([])
-    if (movieQuery.length <= 2) {
+    if (movieQuery.length === 0) {
       return;
     }
     const results = await fetch(`/api/titleQuery?q=${encodeURIComponent(movieQuery)}`)
@@ -23,19 +25,25 @@ export function MovieQuery({onClearChosenMovie, onMovieClick}: MovieQueryProps):
 
   const handleMovieClick = (movie: Record<string, string>) => {
     setQueryResults([])
+    setMovieQuery('')
     onMovieClick(movie)
   }
 
   return <>
-    <label><div>Which movie were you thinking of?</div>
-      <input placeholder="Search…" type="text" value={movieQuery} onChange={handleMovieQueryChange} />
-    </label>
+    <form className="pure-form">
+      <input placeholder="Name an old movie…" type="search" value={movieQuery} onChange={handleMovieQueryChange} className="pure-input-rounded" />
+    </form>
     {queryResults.length > 0 &&
-      <div className="query-results">
-        Choose one:
-        {queryResults.map((movie) =>
-          <li key={movie.id} onClick={() => handleMovieClick(movie)}><b>{movie.title}</b> ({movie.releaseDate.slice(0,4)})</li>
-        )}
+      <div className={styles.container + " pure-menu"}>
+        <ul className="pure-menu-list">
+          {queryResults.map((movie) =>
+            <li key={movie.id} className="pure-menu-item">
+              <a onClick={() => handleMovieClick(movie)} className={"pure-menu-link " + styles.link}>
+                <b>{movie.title}</b> ({movie.releaseDate.slice(0,4)})
+              </a>
+            </li>
+          )}
+        </ul>
       </div>
     }
   </>

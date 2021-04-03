@@ -1,4 +1,4 @@
-import {useState, ReactNode} from 'react'
+import {useState, ReactElement} from 'react'
 
 import styles from '../styles/MovieQuery.module.css'
 
@@ -7,7 +7,7 @@ type MovieQueryProps = {
   onMovieClick: (movie: Record<string, string>) => void,
 }
 
-export function MovieQuery({onClearChosenMovie, onMovieClick}: MovieQueryProps): ReactNode {
+export function MovieQuery({onClearChosenMovie, onMovieClick}: MovieQueryProps): ReactElement {
   const [movieQuery, setMovieQuery] = useState('')
   const [queryResults, setQueryResults] = useState([])
 

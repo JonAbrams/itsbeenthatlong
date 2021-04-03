@@ -13,7 +13,7 @@ export default function Home(): ReactNode {
     setOtherMovie(null)
   }
 
-  const handleMovieClick = async (movie) => {
+  const handleMovieClick = async (movie: Record<string, string>) => {
     setChosenMovie(movie)
     const results = await fetch(`/api/otherMovies?year=${movie.releaseDate.slice(0,4)}`).then(res => res.json())
     setOtherMovie(results)

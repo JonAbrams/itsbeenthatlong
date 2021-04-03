@@ -1,6 +1,11 @@
-import {useState, FC} from 'react'
+import {useState, ReactNode} from 'react'
 
-export function MovieQuery({onClearChosenMovie, onMovieClick}): FC {
+type MovieQueryProps = {
+  onClearChosenMovie: () => void,
+  onMovieClick: (movie: Record<string, string>) => void,
+}
+
+export function MovieQuery({onClearChosenMovie, onMovieClick}: MovieQueryProps): ReactNode {
   const [movieQuery, setMovieQuery] = useState('')
   const [queryResults, setQueryResults] = useState([])
 
@@ -16,12 +21,12 @@ export function MovieQuery({onClearChosenMovie, onMovieClick}): FC {
     setQueryResults(results)
   }
 
-  const handleMovieClick = (movie) => {
+  const handleMovieClick = (movie: Record<string, string>) => {
     setQueryResults([])
     onMovieClick(movie)
   }
 
-  return (<>
+  return <>
     <label><div>Which movie were you thinking of?</div>
       <input placeholder="Search…" type="text" value={movieQuery} onChange={handleMovieQueryChange} />
     </label>
@@ -33,5 +38,5 @@ export function MovieQuery({onClearChosenMovie, onMovieClick}): FC {
         )}
       </div>
     }
-  </>)
+  </>
 }

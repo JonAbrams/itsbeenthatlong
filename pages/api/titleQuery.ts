@@ -7,7 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
   const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&api_key=${process.env['TMDB_API_KEY']}`)
   .then(res => res.json())
 
-  let movies = response.results
+  let movies = response.results.filter(({release_date}) => release_date);
   movies.sort((a, b) => {
     return b.vote_count - a.vote_count;
   })

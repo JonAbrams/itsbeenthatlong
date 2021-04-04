@@ -5,4 +5,10 @@
 .link {
   color: #333;
   cursor: pointer;
+  white-space: none;
+}
+
+.form,
+.input {
+  width: 100%;
 }

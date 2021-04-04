@@ -30,8 +30,8 @@ export function MovieQuery({onClearChosenMovie, onMovieClick}: MovieQueryProps):
   }
 
   return <>
-    <form className="pure-form">
-      <input placeholder="Name an old movie…" type="search" value={movieQuery} onChange={handleMovieQueryChange} className="pure-input-rounded" />
+    <form className={styles.form + " pure-form"}>
+      <input placeholder="Name an old movie…" type="search" value={movieQuery} onChange={handleMovieQueryChange} className={styles.input + " pure-input-rounded"} />
     </form>
     {queryResults.length > 0 &&
       <div className={styles.container + " pure-menu"}>

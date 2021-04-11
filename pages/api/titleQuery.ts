@@ -2,11 +2,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import 'isomorphic-fetch';
 
+const titleCache = {};
+
 export default async (
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> => {
   const query = req.query?.q as string;
+  if (titleCache[query]) {
+    res.json(titleCache[query]);
+    return;
+  }
   const response = await fetch(
     `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
       query,
@@ -25,5 +31,6 @@ export default async (
       posterPath,
     }),
   );
-  res.json(movies.slice(0, 5));
+  titleCache[query] = movies.slice(0, 5);
+  res.json(titleCache[query]);
 };

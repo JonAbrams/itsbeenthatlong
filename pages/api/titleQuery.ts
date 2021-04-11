@@ -17,10 +17,13 @@ export default async (
   movies.sort((a, b) => {
     return b.vote_count - a.vote_count;
   });
-  movies = movies.map(({ id, title, release_date: releaseDate }) => ({
-    title,
-    releaseDate,
-    id,
-  }));
+  movies = movies.map(
+    ({ id, title, poster_path: posterPath, release_date: releaseDate }) => ({
+      title,
+      releaseDate,
+      id,
+      posterPath,
+    }),
+  );
   res.json(movies.slice(0, 5));
 };

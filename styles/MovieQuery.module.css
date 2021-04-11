@@ -2,13 +2,25 @@
   margin-top: 1rem;
 }
 
-.link {
+a.link {
   color: #333;
   cursor: pointer;
-  white-space: none;
+  white-space: normal;
+  display: flex;
+  align-items: center;
 }
 
 .form,
 .input {
   width: 100%;
+}
+
+.poster {
+  min-width: 70px;
+  width: 70px;
+  margin-right: 10px;
+}
+
+.title {
+  word-wrap: break-word;
 }

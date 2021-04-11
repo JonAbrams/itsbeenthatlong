@@ -53,7 +53,16 @@ export function MovieQuery({
                   onClick={() => handleMovieClick(movie)}
                   className={'pure-menu-link ' + styles.link}
                 >
-                  <b>{movie.title}</b> ({movie.releaseDate.slice(0, 4)})
+                  <img
+                    className={styles.poster}
+                    src={
+                      movie.posterPath &&
+                      `https://image.tmdb.org/t/p/w200${movie.posterPath}`
+                    }
+                  />
+                  <span className={styles.title}>
+                    <b>{movie.title}</b> ({movie.releaseDate.slice(0, 4)})
+                  </span>
                 </a>
               </li>
             ))}

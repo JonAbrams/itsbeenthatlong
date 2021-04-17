@@ -80,6 +80,16 @@ export default function Home(): ReactNode {
           </div>
         )}
       </main>
+      <footer className={styles.footer}>
+        <div>
+          This product uses the{' '}
+          <a href="https://developers.themoviedb.org/3/getting-started/introduction">
+            TMDb API
+          </a>{' '}
+          but is not endorsed or certified by{' '}
+          <a href="https://www.themoviedb.org/">TMDb</a>.
+        </div>
+      </footer>
     </div>
   );
 }

@@ -22,10 +22,13 @@ export default async (
   const response = await fetch(
     `https://api.themoviedb.org/3/discover/movie?primary_release_year=${movieYear}&sort_by=revenue.desc&api_key=${process.env['TMDB_API_KEY']}`,
   ).then((res) => res.json());
-  const [movie] = [response.results[0]].map(({ title, release_date }) => ({
-    title,
-    releaseDate: release_date,
-  }));
+  const [movie] = [response.results[0]].map(
+    ({ title, poster_path, release_date }) => ({
+      title,
+      posterPath: poster_path,
+      releaseDate: release_date,
+    }),
+  );
   movieYearCache[movieYear] = movie;
   res.json(movie);
 };

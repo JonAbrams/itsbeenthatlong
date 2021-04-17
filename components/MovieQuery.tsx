@@ -1,4 +1,4 @@
-import { useState, ReactElement } from 'react';
+import { useState, FunctionComponent } from 'react';
 
 import styles from '../styles/MovieQuery.module.css';
 
@@ -7,10 +7,10 @@ type MovieQueryProps = {
   onMovieClick: (movie: Record<string, string>) => void;
 };
 
-export function MovieQuery({
+export const MovieQuery: FunctionComponent<MovieQueryProps> = ({
   onClearChosenMovie,
   onMovieClick,
-}: MovieQueryProps): ReactElement {
+}) => {
   const [movieQuery, setMovieQuery] = useState('');
   const [queryResults, setQueryResults] = useState([]);
 
@@ -71,4 +71,4 @@ export function MovieQuery({
       )}
     </>
   );
-}
+};

@@ -33,3 +33,19 @@
   justify-content: center;
   align-items: center;
 }
+
+.results {
+  /* margin-top: -20px; */
+}
+
+.resultEntry {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  min-height: 105px;
+}
+
+.now {
+  justify-content: center;
+  min-height: 50px;
+}

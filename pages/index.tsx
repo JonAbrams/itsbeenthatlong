@@ -3,7 +3,9 @@ import { useState, ReactNode } from 'react';
 import 'purecss';
 
 import styles from '../styles/Home.module.css';
+import movieQueryStyles from '../styles/MovieQuery.module.css';
 import { MovieQuery } from '../components/MovieQuery';
+import { Arrow } from '../components/Arrow';
 
 export default function Home(): ReactNode {
   const [chosenMovie, setChosenMovie] = useState(null);
@@ -22,11 +24,14 @@ export default function Home(): ReactNode {
     setOtherMovie(results);
   };
 
+  const yearsPassed =
+    chosenMovie &&
+    new Date().getFullYear() - chosenMovie.releaseDate.slice(0, 4);
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>It's been that long?!</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title key="title">It's been that long?!</title>
       </Head>
 
       <main className={styles.main}>
@@ -39,16 +44,39 @@ export default function Home(): ReactNode {
         />
         {!otherMovie && chosenMovie && <div>Loading…</div>}
         {otherMovie && (
-          <div className="other-movies">
-            <div>
-              <b>Now</b> (2021) to <b>{chosenMovie.title}</b> (
-              {chosenMovie.releaseDate.slice(0, 4)}) is the same as…
+          <div className={styles.results}>
+            <div className={styles.now + ' ' + styles.resultEntry}>
+              <span>
+                <b>Now</b> (2021)
+              </span>
             </div>
-            <span>
-              <b>{chosenMovie.title}</b> ({chosenMovie.releaseDate.slice(0, 4)})
-              to{' '}
-            </span>
-            <b>{otherMovie.title}</b> ({otherMovie.releaseDate.slice(0, 4)})
+            <Arrow>{yearsPassed} years</Arrow>
+            <div className={styles.resultEntry}>
+              <img
+                className={movieQueryStyles.poster}
+                src={
+                  chosenMovie.posterPath &&
+                  `https://image.tmdb.org/t/p/w200${chosenMovie.posterPath}`
+                }
+              />
+              <span>
+                <b>{chosenMovie.title}</b> (
+                {chosenMovie.releaseDate.slice(0, 4)})
+              </span>
+            </div>
+            <Arrow>{yearsPassed} years</Arrow>
+            <div className={styles.resultEntry}>
+              <img
+                className={movieQueryStyles.poster}
+                src={
+                  otherMovie.posterPath &&
+                  `https://image.tmdb.org/t/p/w200${otherMovie.posterPath}`
+                }
+              />
+              <span>
+                <b>{otherMovie.title}</b> ({otherMovie.releaseDate.slice(0, 4)})
+              </span>
+            </div>
           </div>
         )}
       </main>

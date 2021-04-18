@@ -7,6 +7,8 @@ type MovieQueryProps = {
   onMovieClick: (movie: Record<string, string>) => void;
 };
 
+let lastQueryDate = new Date();
+
 export const MovieQuery: FunctionComponent<MovieQueryProps> = ({
   onClearChosenMovie,
   onMovieClick,
@@ -20,9 +22,13 @@ export const MovieQuery: FunctionComponent<MovieQueryProps> = ({
     if (movieQuery.length === 0) {
       return;
     }
+    const queryDate = new Date();
+    lastQueryDate = queryDate;
     const results = await fetch(
       `/api/titleQuery?q=${encodeURIComponent(movieQuery)}`,
     ).then((res) => res.json());
+    // Only read results if this is indeed the most recent query.
+    if (lastQueryDate !== queryDate) return;
     setQueryResults(results);
   };
 

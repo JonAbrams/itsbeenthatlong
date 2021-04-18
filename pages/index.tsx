@@ -82,6 +82,13 @@ export default function Home(): ReactNode {
       </main>
       <footer className={styles.footer}>
         <div>
+          Created and maintained by{' '}
+          <a href="https://www.twitter.com/JonathanAbrams">Jon Abrams</a>
+        </div>
+        <div>
+          Hosting provided by <a href="https://vercel.com/">Vercel</a>.
+        </div>
+        <div>
           This product uses the{' '}
           <a href="https://developers.themoviedb.org/3/getting-started/introduction">
             TMDb API

@@ -22,6 +22,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+.footer div {
+  margin-bottom: 10px;
 }
 
 .resultEntry {

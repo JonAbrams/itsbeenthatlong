@@ -17,7 +17,6 @@ export const MovieQuery: FunctionComponent<MovieQueryProps> = ({
   const handleMovieQueryChange = async ({ target: { value: movieQuery } }) => {
     setMovieQuery(movieQuery);
     onClearChosenMovie();
-    setQueryResults([]);
     if (movieQuery.length === 0) {
       return;
     }

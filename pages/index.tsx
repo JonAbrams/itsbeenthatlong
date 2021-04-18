@@ -32,6 +32,20 @@ export default function Home(): ReactNode {
     <div className={styles.container}>
       <Head>
         <title key="title">It's been that long?!</title>
+        {/* Global Site Tag (gtag.js) - Google Analytics */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-56VEYQXYYX"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-56VEYQXYYX');`,
+          }}
+        />
       </Head>
 
       <main className={styles.main}>

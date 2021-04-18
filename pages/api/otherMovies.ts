@@ -22,6 +22,10 @@ export default async (
   const response = await fetch(
     `https://api.themoviedb.org/3/discover/movie?primary_release_year=${movieYear}&sort_by=revenue.desc&api_key=${process.env['TMDB_API_KEY']}`,
   ).then((res) => res.json());
+  if (response.results.length === 0) {
+    res.status(404).send('Not found');
+    return;
+  }
   const [movie] = [response.results[0]].map(
     ({ title, poster_path, release_date }) => ({
       title,

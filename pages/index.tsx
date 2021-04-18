@@ -10,17 +10,25 @@ import { Arrow } from '../components/Arrow';
 export default function Home(): ReactNode {
   const [chosenMovie, setChosenMovie] = useState(null);
   const [otherMovie, setOtherMovie] = useState(null);
+  const [noMatch, setNoMatch] = useState(false);
 
   const handleClearChosenMovie = () => {
     setChosenMovie(null);
     setOtherMovie(null);
+    setNoMatch(false);
   };
 
   const handleMovieClick = async (movie: Record<string, string>) => {
     setChosenMovie(movie);
-    const results = await fetch(
+    const res = await fetch(
       `/api/otherMovies?year=${movie.releaseDate.slice(0, 4)}`,
-    ).then((res) => res.json());
+    );
+    if (res.status === 404) {
+      setChosenMovie(null);
+      setNoMatch(true);
+      return;
+    }
+    const results = await res.json();
     setOtherMovie(results);
   };
 
@@ -56,7 +64,14 @@ export default function Home(): ReactNode {
           onClearChosenMovie={handleClearChosenMovie}
           onMovieClick={handleMovieClick}
         />
-        {!otherMovie && chosenMovie && <div>Loading…</div>}
+        {!otherMovie && chosenMovie && (
+          <div className={styles.message}>Loading…</div>
+        )}
+        {noMatch && (
+          <div className={styles.message}>
+            Whoa, that movie really <b>is</b> old. Try a newer one.
+          </div>
+        )}
         {otherMovie && (
           <div className={styles.results}>
             <div className={styles.now + ' ' + styles.resultEntry}>

@@ -37,7 +37,6 @@ export default function Home({
       return;
     }
     const results = await res.json();
-    console.log(results);
     setOtherMovie(results);
   };
 

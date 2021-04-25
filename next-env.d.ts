@@ -3,7 +3,7 @@
 
 interface Movie {
   title: string;
-  releaseDate: string;
+  year: number;
   id: number;
   posterPath: string;
 }

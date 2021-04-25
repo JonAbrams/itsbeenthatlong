@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   try {
     const chosenMovie = await getByTitleId(movieId);
-    const year = +chosenMovie.releaseDate.slice(0, 4);
+    const year = chosenMovie.year;
     const nowYear = new Date().getFullYear();
     const movieYear = year - (nowYear - year);
     const otherMovie = await getMovieFromYear(movieYear);
@@ -36,9 +36,7 @@ export default function MoviePage({
   chosenMovie,
   otherMovie,
 }: MoviePageProps): ReactNode {
-  const yearsPassed =
-    chosenMovie &&
-    new Date().getFullYear() - +chosenMovie.releaseDate.slice(0, 4);
+  const yearsPassed = new Date().getFullYear() - chosenMovie.year;
 
   console.log({ chosenMovie, otherMovie });
   return (
@@ -48,7 +46,7 @@ export default function MoviePage({
       </Head>
       {!otherMovie ? (
         <div className={styles.message}>
-          Whoa, that movie really <b>is</b> old. Try a newer one.
+          Whoa, that movie is <b>really</b> old. Try a newer one.
         </div>
       ) : (
         <div className={styles.results}>
@@ -67,7 +65,7 @@ export default function MoviePage({
               }
             />
             <span>
-              <b>{chosenMovie.title}</b> ({chosenMovie.releaseDate.slice(0, 4)})
+              <b>{chosenMovie.title}</b> ({chosenMovie.year})
             </span>
           </div>
           <Arrow>{yearsPassed} years</Arrow>
@@ -80,7 +78,7 @@ export default function MoviePage({
               }
             />
             <span>
-              <b>{otherMovie.title}</b> ({otherMovie.releaseDate.slice(0, 4)})
+              <b>{otherMovie.title}</b> ({otherMovie.year})
             </span>
           </div>
         </div>

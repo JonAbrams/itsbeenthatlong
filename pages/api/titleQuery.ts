@@ -2,26 +2,32 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import 'isomorphic-fetch';
 
+const queryCache = {};
 const titleCache = {};
 
 export const movieTransformer = ({
   id,
   title,
   poster_path: posterPath,
-  release_date: releaseDate,
+  release_date,
 }: MovieResponse): Movie => ({
   title,
-  releaseDate,
+  year: +release_date.slice(0, 4),
   id,
   posterPath,
 });
 
 export async function getByTitleId(titleId: string): Promise<Movie> {
+  if (titleCache[titleId]) return titleCache[titleId];
+
   const response = await fetch(
     `https://api.themoviedb.org/3/movie/${titleId}?api_key=${process.env['TMDB_API_KEY']}`,
   );
   if (response.status !== 200) throw 'not found';
-  return movieTransformer(await response.json());
+
+  const movie = movieTransformer(await response.json());
+  titleCache[titleId] = movie;
+  return movie;
 }
 
 export default async function queryTitle(
@@ -29,8 +35,8 @@ export default async function queryTitle(
   res: NextApiResponse,
 ): Promise<void> {
   const query = req.query?.q as string;
-  if (titleCache[query]) {
-    res.json(titleCache[query]);
+  if (queryCache[query.toLowerCase()]) {
+    res.json(queryCache[query]);
     return;
   }
   const response = await fetch(
@@ -44,6 +50,6 @@ export default async function queryTitle(
     return b.vote_count - a.vote_count;
   });
   movies = movies.map(movieTransformer);
-  titleCache[query] = movies.slice(0, 5);
-  res.json(titleCache[query]);
+  queryCache[query.toLowerCase()] = movies.slice(0, 5);
+  res.json(queryCache[query]);
 }

@@ -7,7 +7,7 @@ let lastQueryDate = new Date();
 
 export const MovieQuery: FunctionComponent = () => {
   const [movieQuery, setMovieQuery] = useState('');
-  const [queryResults, setQueryResults] = useState([]);
+  const [queryResults, setQueryResults] = useState<Movie[]>([]);
 
   const handleMovieQueryChange = async ({ target: { value: movieQuery } }) => {
     setMovieQuery(movieQuery);
@@ -58,7 +58,7 @@ export const MovieQuery: FunctionComponent = () => {
                       }
                     />
                     <span className={styles.title}>
-                      <b>{movie.title}</b> ({movie.releaseDate.slice(0, 4)})
+                      <b>{movie.title}</b> ({movie.year})
                     </span>
                   </a>
                 </Link>

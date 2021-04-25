@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { ReactNode } from 'react';
 
 import { getByTitleId } from './api/titleQuery';
@@ -42,6 +43,9 @@ export default function MoviePage({
   console.log({ chosenMovie, otherMovie });
   return (
     <Home>
+      <Head>
+        <title key="title">It's been that long?! – {chosenMovie.title}</title>
+      </Head>
       {!otherMovie ? (
         <div className={styles.message}>
           Whoa, that movie really <b>is</b> old. Try a newer one.

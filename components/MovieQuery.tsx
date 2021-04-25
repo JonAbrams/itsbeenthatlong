@@ -1,24 +1,16 @@
 import { useState, FunctionComponent } from 'react';
+import Link from 'next/link';
 
 import styles from '../styles/MovieQuery.module.css';
 
-type MovieQueryProps = {
-  onClearChosenMovie: () => void;
-  onMovieClick: (movie: Movie) => void;
-};
-
 let lastQueryDate = new Date();
 
-export const MovieQuery: FunctionComponent<MovieQueryProps> = ({
-  onClearChosenMovie,
-  onMovieClick,
-}) => {
+export const MovieQuery: FunctionComponent = () => {
   const [movieQuery, setMovieQuery] = useState('');
   const [queryResults, setQueryResults] = useState([]);
 
   const handleMovieQueryChange = async ({ target: { value: movieQuery } }) => {
     setMovieQuery(movieQuery);
-    onClearChosenMovie();
     if (movieQuery.length === 0) {
       return;
     }
@@ -32,10 +24,9 @@ export const MovieQuery: FunctionComponent<MovieQueryProps> = ({
     setQueryResults(results);
   };
 
-  const handleMovieClick = (movie: Record<string, string>) => {
+  const resetQuery = () => {
     setQueryResults([]);
     setMovieQuery('');
-    onMovieClick(movie);
   };
 
   return (
@@ -54,21 +45,23 @@ export const MovieQuery: FunctionComponent<MovieQueryProps> = ({
           <ul className="pure-menu-list">
             {queryResults.map((movie) => (
               <li key={movie.id} className="pure-menu-item">
-                <a
-                  onClick={() => handleMovieClick(movie)}
-                  className={'pure-menu-link ' + styles.link}
-                >
-                  <img
-                    className={styles.poster}
-                    src={
-                      movie.posterPath &&
-                      `https://image.tmdb.org/t/p/w200${movie.posterPath}`
-                    }
-                  />
-                  <span className={styles.title}>
-                    <b>{movie.title}</b> ({movie.releaseDate.slice(0, 4)})
-                  </span>
-                </a>
+                <Link href={`/${movie.id}`}>
+                  <a
+                    className={'pure-menu-link ' + styles.link}
+                    onClick={resetQuery}
+                  >
+                    <img
+                      className={styles.poster}
+                      src={
+                        movie.posterPath &&
+                        `https://image.tmdb.org/t/p/w200${movie.posterPath}`
+                      }
+                    />
+                    <span className={styles.title}>
+                      <b>{movie.title}</b> ({movie.releaseDate.slice(0, 4)})
+                    </span>
+                  </a>
+                </Link>
               </li>
             ))}
           </ul>

@@ -7,9 +7,17 @@ import movieQueryStyles from '../styles/MovieQuery.module.css';
 import { MovieQuery } from '../components/MovieQuery';
 import { Arrow } from '../components/Arrow';
 
-export default function Home(): ReactNode {
-  const [chosenMovie, setChosenMovie] = useState(null);
-  const [otherMovie, setOtherMovie] = useState(null);
+interface HomeProps {
+  initialChosenMovie?: Movie;
+  initialOtherMovie?: Movie;
+}
+
+export default function Home({
+  initialChosenMovie,
+  initialOtherMovie,
+}: HomeProps): ReactNode {
+  const [chosenMovie, setChosenMovie] = useState(initialChosenMovie || null);
+  const [otherMovie, setOtherMovie] = useState(initialOtherMovie || null);
   const [noMatch, setNoMatch] = useState(false);
 
   const handleClearChosenMovie = () => {
@@ -18,7 +26,7 @@ export default function Home(): ReactNode {
     setNoMatch(false);
   };
 
-  const handleMovieClick = async (movie: Record<string, string>) => {
+  const handleMovieClick = async (movie: Movie) => {
     setChosenMovie(movie);
     const res = await fetch(
       `/api/otherMovies?year=${movie.releaseDate.slice(0, 4)}`,
@@ -29,12 +37,13 @@ export default function Home(): ReactNode {
       return;
     }
     const results = await res.json();
+    console.log(results);
     setOtherMovie(results);
   };
 
   const yearsPassed =
     chosenMovie &&
-    new Date().getFullYear() - chosenMovie.releaseDate.slice(0, 4);
+    new Date().getFullYear() - +chosenMovie.releaseDate.slice(0, 4);
 
   return (
     <div className={styles.container}>

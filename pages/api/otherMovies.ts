@@ -2,7 +2,25 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import 'isomorphic-fetch';
 
+import { movieTransformer } from './titleQuery';
+
 const movieYearCache = {};
+
+export async function getMovieFromYear(
+  movieYear: number,
+): Promise<Movie | null> {
+  if (movieYearCache[movieYear]) return movieYearCache[movieYear];
+
+  const response = await fetch(
+    `https://api.themoviedb.org/3/discover/movie?primary_release_year=${movieYear}&sort_by=revenue.desc&api_key=${process.env['TMDB_API_KEY']}`,
+  ).then((res) => res.json());
+
+  if (response.results.length === 0) return null;
+
+  const movie = movieTransformer(response.results[0]);
+  movieYearCache[movieYear] = movie;
+  return movie;
+}
 
 export default async (
   req: NextApiRequest,
@@ -15,24 +33,10 @@ export default async (
   }
   const nowYear = new Date().getFullYear();
   const movieYear = year - (nowYear - year);
-  if (movieYearCache[movieYear]) {
-    res.json(movieYearCache[movieYear]);
-    return;
-  }
-  const response = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?primary_release_year=${movieYear}&sort_by=revenue.desc&api_key=${process.env['TMDB_API_KEY']}`,
-  ).then((res) => res.json());
-  if (response.results.length === 0) {
+  const movie = await getMovieFromYear(movieYear);
+  if (!movie) {
     res.status(404).send('Not found');
     return;
   }
-  const [movie] = [response.results[0]].map(
-    ({ title, poster_path, release_date }) => ({
-      title,
-      posterPath: poster_path,
-      releaseDate: release_date,
-    }),
-  );
-  movieYearCache[movieYear] = movie;
   res.json(movie);
 };

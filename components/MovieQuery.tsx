@@ -4,7 +4,7 @@ import styles from '../styles/MovieQuery.module.css';
 
 type MovieQueryProps = {
   onClearChosenMovie: () => void;
-  onMovieClick: (movie: Record<string, string>) => void;
+  onMovieClick: (movie: Movie) => void;
 };
 
 let lastQueryDate = new Date();

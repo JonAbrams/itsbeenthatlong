@@ -17,8 +17,8 @@ interface MoviePageProps {
 
 const redirectHome = { redirect: { destination: '/', permanent: false } };
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const movieId = params?.id;
-  if (typeof movieId !== 'string') return redirectHome;
+  const movieId = +params?.id;
+  if (isNaN(movieId)) return redirectHome;
 
   try {
     const chosenMovie = await getByTitleId(movieId);

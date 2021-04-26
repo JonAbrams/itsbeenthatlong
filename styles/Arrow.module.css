@@ -7,21 +7,21 @@
 }
 
 .arrowUp {
-  border-bottom: solid 1px;
-  border-right: solid 1px;
+  border-bottom: solid 2px;
+  border-right: solid 2px;
   width: var(--arrow-width);
   height: var(--arrow-width);
   transform: rotate(225deg);
-  margin-top: 5px;
+  margin-top: 7px;
 }
 
 .arrowDown {
-  border-bottom: solid 1px;
-  border-right: solid 1px;
+  border-bottom: solid 2px;
+  border-right: solid 2px;
   width: var(--arrow-width);
   height: var(--arrow-width);
   transform: rotate(45deg);
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .content {

@@ -4,12 +4,14 @@ import 'isomorphic-fetch';
 
 import { movieTransformer } from './titleQuery';
 
-const movieYearCache = {};
+const movieYearCache: Map<number, Movie> = new Map();
 
 export async function getMovieFromYear(
   movieYear: number,
 ): Promise<Movie | null> {
-  if (movieYearCache[movieYear]) return movieYearCache[movieYear];
+  if (movieYearCache.has(movieYear)) {
+    return movieYearCache.get(movieYear);
+  }
 
   const response = await fetch(
     `https://api.themoviedb.org/3/discover/movie?primary_release_year=${movieYear}&sort_by=revenue.desc&api_key=${process.env['TMDB_API_KEY']}`,
@@ -18,7 +20,7 @@ export async function getMovieFromYear(
   if (response.results.length === 0) return null;
 
   const movie = movieTransformer(response.results[0]);
-  movieYearCache[movieYear] = movie;
+  movieYearCache.set(movieYear, movie);
   return movie;
 }
 

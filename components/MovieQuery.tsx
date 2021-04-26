@@ -12,6 +12,7 @@ export const MovieQuery: FunctionComponent = () => {
   const handleMovieQueryChange = async ({ target: { value: movieQuery } }) => {
     setMovieQuery(movieQuery);
     if (movieQuery.length === 0) {
+      setQueryResults([]);
       return;
     }
     const queryDate = new Date();

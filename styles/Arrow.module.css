@@ -1,11 +1,9 @@
 .container {
-  --arrow-width: 40px;
-  position: relative;
+  --arrow-width: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 20px 0;
-  flex-direction: column;
 }
 
 .arrowUp {
@@ -14,6 +12,7 @@
   width: var(--arrow-width);
   height: var(--arrow-width);
   transform: rotate(225deg);
+  margin-top: 5px;
 }
 
 .arrowDown {
@@ -22,10 +21,9 @@
   width: var(--arrow-width);
   height: var(--arrow-width);
   transform: rotate(45deg);
+  margin-bottom: 5px;
 }
 
 .content {
-  position: absolute;
-  top: 30px;
-  margin: 0 auto;
+  margin: 0 10px;
 }

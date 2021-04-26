@@ -14,7 +14,7 @@ export const Home: FunctionComponent = ({ children }) => {
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-56VEYQXYYX"
-        ></script>
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer = window.dataLayer || [];

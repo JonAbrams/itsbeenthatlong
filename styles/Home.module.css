@@ -45,3 +45,9 @@
   justify-content: center;
   min-height: 50px;
 }
+
+.shareButton {
+  display: block;
+  margin: 0 auto;
+  margin-top: 50px;
+}

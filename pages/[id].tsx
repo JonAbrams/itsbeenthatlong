@@ -38,7 +38,34 @@ export default function MoviePage({
 }: MoviePageProps): ReactNode {
   const yearsPassed = new Date().getFullYear() - chosenMovie.year;
 
-  console.log({ chosenMovie, otherMovie });
+  async function share() {
+    const shareText = `When "${
+      chosenMovie.title + ''
+    }" was released ${yearsPassed} years ago, "${
+      otherMovie.title + ''
+    }" was ${yearsPassed} years old at the time.`;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "It's been that long?!",
+          text: shareText,
+          url: location.href,
+        });
+      } catch (e) {
+        console.log('Share cancelled?');
+      }
+    } else {
+      open(
+        `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+          shareText,
+        )}&url=${encodeURIComponent(
+          location.href,
+        )}&related=JonathanAbrams&hashtags=itsbeenthatlong`,
+        '_blank',
+      );
+    }
+  }
+
   return (
     <Home>
       <Head>
@@ -81,6 +108,12 @@ export default function MoviePage({
               <b>{otherMovie.title}</b> ({otherMovie.year})
             </span>
           </div>
+          <button
+            className={styles.shareButton + ' pure-button pure-button-primary'}
+            onClick={share}
+          >
+            Share this result!
+          </button>
         </div>
       )}
     </Home>

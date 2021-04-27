@@ -36,7 +36,7 @@ export default async function queryTitle(
 ): Promise<void> {
   const query = req.query?.q as string;
   if (queryCache.has(query.toLowerCase())) {
-    res.json(queryCache.get(query));
+    res.json({ movies: queryCache.get(query) });
     return;
   }
   const response = await fetch(
@@ -54,5 +54,5 @@ export default async function queryTitle(
   movies.forEach((movie: Movie) => {
     titleCache.set(movie.id, movie);
   });
-  res.json(queryCache.get(query));
+  res.json({ movies: queryCache.get(query) });
 }

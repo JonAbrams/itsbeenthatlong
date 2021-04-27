@@ -17,12 +17,17 @@ export const MovieQuery: FunctionComponent = () => {
     }
     const queryDate = new Date();
     lastQueryDate = queryDate;
-    const results = await fetch(
+    const response = await fetch(
       `/api/titleQuery?q=${encodeURIComponent(movieQuery)}`,
-    ).then((res) => res.json());
-    // Only read results if this is indeed the most recent query.
+    );
+    if (response.status !== 200) {
+      console.error(response);
+      return;
+    }
+    const results = await response.json();
     if (lastQueryDate !== queryDate) return;
-    setQueryResults(results);
+    // Only read results if this is indeed the most recent query.
+    setQueryResults(results.movies);
   };
 
   const resetQuery = () => {

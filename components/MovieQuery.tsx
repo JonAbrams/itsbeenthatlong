@@ -38,7 +38,6 @@ export const MovieQuery: FunctionComponent = () => {
       >
         <input
           placeholder="Name an old movie…"
-          type="search"
           value={movieQuery}
           onChange={handleMovieQueryChange}
           className={styles.input + ' pure-input-rounded'}

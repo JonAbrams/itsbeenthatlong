@@ -32,7 +32,10 @@ export const MovieQuery: FunctionComponent = () => {
 
   return (
     <>
-      <form className={styles.form + ' pure-form'}>
+      <form
+        className={styles.form + ' pure-form'}
+        onSubmit={(e) => e.preventDefault()}
+      >
         <input
           placeholder="Name an old movie…"
           type="search"

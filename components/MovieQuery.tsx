@@ -25,8 +25,8 @@ export const MovieQuery: FunctionComponent = () => {
       return;
     }
     const results = await response.json();
-    if (lastQueryDate !== queryDate) return;
     // Only read results if this is indeed the most recent query.
+    if (lastQueryDate !== queryDate) return;
     setQueryResults(results.movies);
   };
 

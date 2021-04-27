@@ -34,8 +34,9 @@ export default async function queryTitle(
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> {
-  const query = req.query?.q as string;
-  if (queryCache.has(query.toLowerCase())) {
+  let query = req.query?.q as string;
+  query = query.toLowerCase();
+  if (queryCache.has(query)) {
     res.json({ movies: queryCache.get(query) });
     return;
   }
@@ -50,7 +51,7 @@ export default async function queryTitle(
     return b.vote_count - a.vote_count;
   });
   movies = movies.map(movieTransformer);
-  queryCache.set(query.toLowerCase(), movies.slice(0, 5));
+  queryCache.set(query, movies.slice(0, 5));
   movies.forEach((movie: Movie) => {
     titleCache.set(movie.id, movie);
   });

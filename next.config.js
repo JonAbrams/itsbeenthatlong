@@ -1,1 +1,4 @@
-export const productionBrowserSourceMaps = true;
+// eslint-disable-next-line no-undef
+module.exports = {
+  productionBrowserSourceMaps: true,
+}

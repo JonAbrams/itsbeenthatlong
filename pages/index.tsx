@@ -13,7 +13,7 @@ export const Home: FunctionComponent = ({ children }) => {
         {/* Global Site Tag (gtag.js) - Google Analytics */}
         <script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=G-56VEYQXYYX"
+          src="https://www.googletagmanager.com/gtag/js?id=G-VXYMCPN2WN"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -21,7 +21,7 @@ export const Home: FunctionComponent = ({ children }) => {
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
 
-              gtag('config', 'G-56VEYQXYYX');`,
+              gtag('config', 'G-VXYMCPN2WN');`,
           }}
         />
       </Head>

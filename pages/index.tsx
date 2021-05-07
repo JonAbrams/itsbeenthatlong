@@ -1,11 +1,17 @@
 import Head from 'next/head';
-import { FunctionComponent } from 'react';
+import { useState, FunctionComponent } from 'react';
 import 'purecss';
 
 import styles from '../styles/Home.module.css';
 import { MovieQuery } from '../components/MovieQuery';
 
 export const Home: FunctionComponent = ({ children }) => {
+  const [queryExists, setQueryExists] = useState(false);
+
+  function handleQueryUpdate(query) {
+    setQueryExists(!!query);
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -30,8 +36,8 @@ export const Home: FunctionComponent = ({ children }) => {
         <h1>
           It's been <b>that</b> long?!
         </h1>
-        <MovieQuery />
-        {children}
+        <MovieQuery onQueryUpdate={handleQueryUpdate} />
+        {!queryExists && children}
       </main>
       <footer className={styles.footer}>
         <div>

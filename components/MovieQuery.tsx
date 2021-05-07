@@ -3,13 +3,20 @@ import Link from 'next/link';
 
 import styles from '../styles/MovieQuery.module.css';
 
+interface MovieQueryProps {
+  onQueryUpdate: (query: string) => void;
+}
+
 let lastQueryDate = new Date();
 
-export const MovieQuery: FunctionComponent = () => {
+export const MovieQuery: FunctionComponent<MovieQueryProps> = ({
+  onQueryUpdate,
+}) => {
   const [movieQuery, setMovieQuery] = useState('');
   const [queryResults, setQueryResults] = useState<Movie[]>([]);
 
   const handleMovieQueryChange = async ({ target: { value: movieQuery } }) => {
+    onQueryUpdate(movieQuery);
     setMovieQuery(movieQuery);
     if (movieQuery.length === 0) {
       setQueryResults([]);

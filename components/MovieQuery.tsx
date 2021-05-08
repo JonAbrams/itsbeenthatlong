@@ -38,6 +38,7 @@ export const MovieQuery: FunctionComponent<MovieQueryProps> = ({
   };
 
   const resetQuery = () => {
+    onQueryUpdate('');
     setQueryResults([]);
     setMovieQuery('');
   };

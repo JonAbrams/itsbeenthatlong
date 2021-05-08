@@ -42,8 +42,8 @@ export const MovieQuery: FunctionComponent = () => {
         onSubmit={(e) => e.preventDefault()}
       >
         <input
-          placeholder="Name an old movie…"
-          aria-label="Search for an old movie"
+          placeholder="Search for a favourite movie…"
+          aria-label="Search for a favourite movie"
           type="search"
           value={movieQuery}
           onChange={handleMovieQueryChange}

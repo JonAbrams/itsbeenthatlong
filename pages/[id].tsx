@@ -73,7 +73,7 @@ export default function MoviePage({
       </Head>
       {!otherMovie ? (
         <div className={styles.message}>
-          Whoa, that movie is <b>really</b> old. Try a newer one.
+          Whoa, "{chosenMovie.title}" is <b>really</b> old. Try a newer one.
         </div>
       ) : (
         <div className={styles.results}>

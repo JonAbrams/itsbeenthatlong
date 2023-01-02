@@ -36,7 +36,8 @@ export default function MoviePage({
   chosenMovie,
   otherMovie,
 }: MoviePageProps): ReactNode {
-  const yearsPassed = new Date().getFullYear() - chosenMovie.year;
+  const thisYear = new Date().getFullYear();
+  const yearsPassed = thisYear - chosenMovie.year;
 
   async function share() {
     const shareText = `When "${
@@ -79,7 +80,7 @@ export default function MoviePage({
         <div className={styles.results}>
           <div className={styles.now + ' ' + styles.resultEntry}>
             <span>
-              <b>Now</b> (2021)
+              <b>Now</b> ({thisYear})
             </span>
           </div>
           <Arrow>{yearsPassed} years</Arrow>

@@ -63,22 +63,21 @@ export const MovieQuery: FunctionComponent<MovieQueryProps> = ({
           <ul className="pure-menu-list">
             {queryResults.map((movie) => (
               <li key={movie.id} className="pure-menu-item">
-                <Link href={`/${movie.id}`}>
-                  <a
-                    className={'pure-menu-link ' + styles.link}
-                    onClick={resetQuery}
-                  >
-                    <img
-                      className={styles.poster}
-                      src={
-                        movie.posterPath &&
-                        `https://image.tmdb.org/t/p/w200${movie.posterPath}`
-                      }
-                    />
-                    <span className={styles.title}>
-                      <b>{movie.title}</b> ({movie.year})
-                    </span>
-                  </a>
+                <Link
+                  href={`/${movie.id}`}
+                  className={'pure-menu-link ' + styles.link}
+                  onClick={resetQuery}
+                >
+                  <img
+                    className={styles.poster}
+                    src={
+                      movie.posterPath &&
+                      `https://image.tmdb.org/t/p/w200${movie.posterPath}`
+                    }
+                  />
+                  <span className={styles.title}>
+                    <b>{movie.title}</b> ({movie.year})
+                  </span>
                 </Link>
               </li>
             ))}

@@ -1,6 +1,7 @@
 import { useState, FunctionComponent } from 'react';
 import Link from 'next/link';
 
+import { Movie } from '../types';
 import styles from '../styles/MovieQuery.module.css';
 
 interface MovieQueryProps {
@@ -25,7 +26,7 @@ export const MovieQuery: FunctionComponent<MovieQueryProps> = ({
     const queryDate = new Date();
     lastQueryDate = queryDate;
     const response = await fetch(
-      `/api/titleQuery?q=${encodeURIComponent(movieQuery)}`,
+      `/api/titleQuery?q=${encodeURIComponent(movieQuery)}`
     );
     if (response.status !== 200) {
       console.error(response);

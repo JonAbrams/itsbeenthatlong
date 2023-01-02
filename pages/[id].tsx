@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 
 import { getByTitleId } from './api/titleQuery';
 import { getMovieFromYear } from './api/otherMovies';
+import { Movie } from '../types';
 
 import { Home } from './index';
 import styles from '../styles/Home.module.css';
@@ -58,11 +59,11 @@ export default function MoviePage({
     } else {
       open(
         `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-          shareText,
+          shareText
         )}&url=${encodeURIComponent(
-          location.href,
+          location.href
         )}&related=JonathanAbrams&hashtags=itsbeenthatlong`,
-        '_blank',
+        '_blank'
       );
     }
   }

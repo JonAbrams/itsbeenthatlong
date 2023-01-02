@@ -2,19 +2,20 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import 'isomorphic-fetch';
 
+import { Movie } from '../../types';
 import { movieTransformer } from './titleQuery';
 
 const movieYearCache: Map<number, Movie> = new Map();
 
 export async function getMovieFromYear(
-  movieYear: number,
+  movieYear: number
 ): Promise<Movie | null> {
   if (movieYearCache.has(movieYear)) {
     return movieYearCache.get(movieYear);
   }
 
   const response = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?primary_release_year=${movieYear}&sort_by=revenue.desc&api_key=${process.env['TMDB_API_KEY']}`,
+    `https://api.themoviedb.org/3/discover/movie?primary_release_year=${movieYear}&sort_by=revenue.desc&api_key=${process.env['TMDB_API_KEY']}`
   ).then((res) => res.json());
 
   if (response.results.length === 0) return null;
@@ -26,7 +27,7 @@ export async function getMovieFromYear(
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ): Promise<void> => {
   const year = +req.query?.year;
   if (!year) {

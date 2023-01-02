@@ -2,6 +2,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import 'isomorphic-fetch';
 
+import { Movie, MovieResponse } from '../../types';
+
 const queryCache: Map<string, Movie[]> = new Map();
 const titleCache: Map<number, Movie> = new Map();
 
@@ -21,7 +23,7 @@ export async function getByTitleId(titleId: number): Promise<Movie> {
   if (titleCache.has(titleId)) return titleCache.get(titleId);
 
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/${titleId}?api_key=${process.env['TMDB_API_KEY']}`,
+    `https://api.themoviedb.org/3/movie/${titleId}?api_key=${process.env['TMDB_API_KEY']}`
   );
   if (response.status !== 200) throw 'not found';
 
@@ -32,7 +34,7 @@ export async function getByTitleId(titleId: number): Promise<Movie> {
 
 export default async function queryTitle(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ): Promise<void> {
   let query = req.query?.q as string;
   query = query.toLowerCase();
@@ -42,8 +44,8 @@ export default async function queryTitle(
   }
   const response = await fetch(
     `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
-      query,
-    )}&api_key=${process.env['TMDB_API_KEY']}`,
+      query
+    )}&api_key=${process.env['TMDB_API_KEY']}`
   ).then((res) => res.json());
 
   let movies = response.results.filter(({ release_date }) => release_date);
